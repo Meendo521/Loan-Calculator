@@ -54,4 +54,18 @@ const showError = (error) => {
 
   //append error div to card b4 heading
   card.insertBefore(errorDiv, heading);
+
+  //clear error
+  //first way of doing it
+  // setTimeout(clearError, 1500);
+
+  //second way of doing it
+  setTimeout(() => {
+    document.querySelector(".alert").remove();
+  }, 1500);
 };
+
+//clear error
+// const clearError = () => {
+//   document.querySelector(".alert").remove();
+// };
