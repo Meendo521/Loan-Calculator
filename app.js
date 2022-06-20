@@ -30,7 +30,28 @@ form.addEventListener(
       totalPayment.value = (monthlyInstallment * calculatedPayements).toFixed(2);
       totalInterest.value = (monthlyInstallment * calculatedPayements - principal).toFixed(2);
     } else {
-      console.log("check your numbers!");
+      //show error
+      showError("Please check your numbers!");
     }
   }),
 );
+
+//show Error function
+const showError = (error) => {
+  //create Div
+  const errorDiv = document.createElement("div");
+  //add classes
+  errorDiv.className = "alert alert-danger";
+  //create text node
+  const text = document.createTextNode(error);
+
+  //get card & heading
+  const card = document.querySelector(".card");
+  const heading = document.querySelector("h1");
+
+  //append text to alert div
+  errorDiv.appendChild(text);
+
+  //append error div to card b4 heading
+  card.insertBefore(errorDiv, heading);
+};
