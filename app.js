@@ -7,6 +7,8 @@ const monthlyPayment = document.querySelector("#monthly-payment");
 const totalPayment = document.querySelector("#total-payment");
 const totalInterest = document.querySelector("#total-interest");
 
+const clearBtn = document.querySelector(".clear");
+
 //Listens to submit
 form.addEventListener(
   "submit",
@@ -35,6 +37,16 @@ form.addEventListener(
     }
   }),
 );
+
+//clear inputs
+clearBtn.addEventListener("click", () => {
+  loanAmount.value = "";
+  interestAmount.value = "";
+  years.value = "";
+  monthlyPayment.value = "";
+  totalPayment.value = "";
+  totalInterest.value = "";
+});
 
 //show Error function
 const showError = (error) => {
