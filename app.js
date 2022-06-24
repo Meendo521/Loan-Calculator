@@ -10,33 +10,48 @@ const totalInterest = document.querySelector("#total-interest");
 const clearBtn = document.querySelector(".clear");
 
 //Listens to submit
-form.addEventListener(
-  "submit",
-  (calculateResults = (e) => {
-    //variables to calculate compund intersest
-    const principal = parseFloat(loanAmount.value);
-    const calculatedInterest = parseFloat(interestAmount.value) / 100 / 12;
-    const calculatedPayements = parseFloat(years.value) * 12;
+form.addEventListener("submit", (e) => {
+  //hide results
+  document.querySelector("#results").style.display = "none";
 
-    const x = Math.pow(1 + calculatedInterest, calculatedPayements);
+  //show loader
+  document.getElementById("loader").style.display = "block";
 
-    //calculate monthly installment
-    const monthlyInstallment = (principal * x * calculatedInterest) / (x - 1);
+  //call calculate results after 2 seconds
+  setTimeout(() => calculateResults(), 1500);
 
-    //prevent default element behavour
-    e.preventDefault();
+  //prevent default element behavour
+  e.preventDefault();
+});
 
-    //check if finite
-    if (isFinite(monthlyInstallment)) {
-      monthlyPayment.value = monthlyInstallment.toFixed(2);
-      totalPayment.value = (monthlyInstallment * calculatedPayements).toFixed(2);
-      totalInterest.value = (monthlyInstallment * calculatedPayements - principal).toFixed(2);
-    } else {
-      //show error
-      showError("Please check your numbers!");
-    }
-  }),
-);
+//calculateResults
+const calculateResults = () => {
+  //variables to calculate compund intersest
+  const principal = parseFloat(loanAmount.value);
+  const calculatedInterest = parseFloat(interestAmount.value) / 100 / 12;
+  const calculatedPayements = parseFloat(years.value) * 12;
+
+  const x = Math.pow(1 + calculatedInterest, calculatedPayements);
+
+  //calculate monthly installment
+  const monthlyInstallment = (principal * x * calculatedInterest) / (x - 1);
+
+  //check if finite
+  if (isFinite(monthlyInstallment)) {
+    monthlyPayment.value = monthlyInstallment.toFixed(2);
+    totalPayment.value = (monthlyInstallment * calculatedPayements).toFixed(2);
+    totalInterest.value = (monthlyInstallment * calculatedPayements - principal).toFixed(2);
+
+    //show results
+    document.querySelector("#results").style.display = "block";
+
+    //hide spinner loader
+    document.getElementById("loader").style.display = "none";
+  } else {
+    //show error
+    showError("Please check your numbers!");
+  }
+};
 
 //clear inputs
 clearBtn.addEventListener("click", () => {
@@ -46,10 +61,21 @@ clearBtn.addEventListener("click", () => {
   monthlyPayment.value = "";
   totalPayment.value = "";
   totalInterest.value = "";
+
+  setTimeout(() => {
+    //hide spinner loader
+    document.getElementById("results").style.display = "none";
+  }, 1000);
 });
 
 //show Error function
 const showError = (error) => {
+  //show results
+  document.querySelector("#results").style.display = "none";
+
+  //hide spinner loader
+  document.getElementById("loader").style.display = "none";
+
   //create Div
   const errorDiv = document.createElement("div");
   //add classes
